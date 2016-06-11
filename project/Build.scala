@@ -1,4 +1,4 @@
-import com.typesafe.sbt.{ GitPlugin, SbtScalariform }
+import com.typesafe.sbt.{ GitPlugin, SbtNativePackager, SbtScalariform }
 import de.heikoseeberger.sbtheader.HeaderPlugin
 import de.heikoseeberger.sbtheader.license.Apache2_0
 import sbt._
@@ -8,7 +8,7 @@ import scalariform.formatter.preferences.{ AlignSingleLineCaseStatements, Double
 
 object Build extends AutoPlugin {
 
-  override def requires = JvmPlugin && HeaderPlugin && GitPlugin && SbtScalariform
+  override def requires = JvmPlugin && HeaderPlugin && GitPlugin && SbtScalariform && SbtNativePackager
 
   override def trigger = allRequirements
 
