@@ -39,6 +39,7 @@ object ServantApp extends App {
   val port = system.settings.config.getInt("servant.port")
 
   def directory: String = system.settings.config.getString("servant.directory")
+
   private def route(directory: String) = {
     import Directives._
     getFromDirectory(directory) ~ pathSingleSlash(get(redirect("index.html", PermanentRedirect)))
