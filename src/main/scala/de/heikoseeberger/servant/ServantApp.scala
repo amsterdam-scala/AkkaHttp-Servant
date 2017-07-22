@@ -23,35 +23,37 @@ import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.model.StatusCodes.PermanentRedirect
 import akka.http.scaladsl.server.Directives
 import akka.stream.ActorMaterializer
+
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import scala.util.{ Failure, Success }
 
-object ServantApp {
+object ServantApp extends App {
 
-  def main(args: Array[String]): Unit = {
-    implicit val system = ActorSystem()
-    implicit val mat = ActorMaterializer()
-    import system.dispatcher
+  implicit val system = ActorSystem()
+  implicit val mat = ActorMaterializer()
 
-    val address = system.settings.config.getString("servant.address")
-    val port = system.settings.config.getInt("servant.port")
-    val directory = system.settings.config.getString("servant.directory")
-    val log = Logging(system, getClass)
+  import system.dispatcher
 
-    Http().bindAndHandle(route(directory), address, port).onComplete {
-      case Success(ServerBinding(address)) =>
-        log.info("Listening on {}", address)
-      case Failure(cause) =>
-        log.error(cause, s"Terminating, because can't bind to $address:$port!")
-        system.terminate()
-    }
+  val address = system.settings.config.getString("servant.address")
+  val port = system.settings.config.getInt("servant.port")
 
-    Await.ready(system.whenTerminated, Duration.Inf)
-  }
-
+  def directory: String = system.settings.config.getString("servant.directory")
   private def route(directory: String) = {
     import Directives._
     getFromDirectory(directory) ~ pathSingleSlash(get(redirect("index.html", PermanentRedirect)))
   }
+
+  val log = Logging(system, getClass)
+
+  Http().bindAndHandle(route(directory), address, port).onComplete {
+    case Success(ServerBinding(address)) =>
+      log.info("Listening on {}", address)
+    case Failure(cause) =>
+      log.error(cause, s"Terminating, because can't bind to $address:$port!")
+      system.terminate()
+  }
+
+  Await.ready(system.whenTerminated, Duration.Inf)
+
 }

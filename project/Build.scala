@@ -2,9 +2,9 @@ import com.typesafe.sbt.{ GitPlugin, SbtNativePackager, SbtScalariform }
 import de.heikoseeberger.sbtheader.HeaderPlugin
 import de.heikoseeberger.sbtheader.license.Apache2_0
 import sbt._
-import sbt.plugins.JvmPlugin
 import sbt.Keys._
-import scalariform.formatter.preferences.{ AlignSingleLineCaseStatements, DoubleIndentClassDeclaration }
+import sbt.plugins.JvmPlugin
+import scalariform.formatter.preferences.{ AlignSingleLineCaseStatements/*, DoubleIndentClassDeclaration*/ }
 
 object Build extends AutoPlugin {
 
@@ -14,8 +14,8 @@ object Build extends AutoPlugin {
 
   override def projectSettings = Vector(
     // Core settings
-    organization := "de.heikoseeberger",
     licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
+    organization := "de.heikoseeberger",
     scalaVersion := Version.Scala,
     crossScalaVersions := Vector(scalaVersion.value),
     scalacOptions ++= Vector(
@@ -32,7 +32,7 @@ object Build extends AutoPlugin {
     SbtScalariform.autoImport.scalariformPreferences := SbtScalariform.autoImport.scalariformPreferences.value
       .setPreference(AlignSingleLineCaseStatements, true)
       .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 100)
-      .setPreference(DoubleIndentClassDeclaration, true),
+      /*.setPreference(DoubleIndentClassDeclaration, true)*/,
 
     // Git settings
     GitPlugin.autoImport.git.useGitDescribe := true,
