@@ -12,21 +12,21 @@ object Build extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  override def projectSettings = Vector(
+  override def projectSettings = Seq(
     // Core settings
     licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
     organization := "de.heikoseeberger",
     scalaVersion := Version.Scala,
-    crossScalaVersions := Vector(scalaVersion.value),
-    scalacOptions ++= Vector(
+    crossScalaVersions := Seq(scalaVersion.value),
+    scalacOptions ++= Seq(
       "-unchecked",
       "-deprecation",
       "-language:_",
       "-target:jvm-1.8",
       "-encoding", "UTF-8"
     ),
-    unmanagedSourceDirectories.in(Compile) := Vector(scalaSource.in(Compile).value),
-    unmanagedSourceDirectories.in(Test) := Vector(scalaSource.in(Test).value),
+    unmanagedSourceDirectories.in(Compile) := Seq(scalaSource.in(Compile).value),
+    unmanagedSourceDirectories.in(Test) := Seq(scalaSource.in(Test).value),
 
     // Scalariform settings
     SbtScalariform.autoImport.scalariformPreferences := SbtScalariform.autoImport.scalariformPreferences.value

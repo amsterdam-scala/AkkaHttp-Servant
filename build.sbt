@@ -5,9 +5,7 @@ lazy val servant = project
 
 name := "servant"
 
-libraryDependencies ++= Vector(
-  Library.akkaHttp
-)
+libraryDependencies ++= Seq(Library.akkaHttp)
 
 initialCommands := """|import de.heikoseeberger.servant._
                       |""".stripMargin
@@ -16,4 +14,4 @@ maintainer.in(Docker) := "Heiko Seeberger"
 daemonUser.in(Docker) := "root"
 dockerBaseImage       := "java:8"
 dockerRepository      := Some("hseeberger")
-dockerExposedPorts    := Vector(8000)
+dockerExposedPorts    := Seq(8000)
